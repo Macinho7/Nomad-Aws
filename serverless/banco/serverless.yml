@@ -1,0 +1,64 @@
+org: //sua org
+app: //seu app
+service: //seu service
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  timeout: 45
+functions:
+  CriaTabela:
+    handler: Usuario/DB/criaTabela.createTable
+    events:
+      - httpApi:
+          path: criaTabela
+          method: post
+  criarUsuario:
+    handler: Usuario/manipulaUsuario.inserirUsuario
+    events:
+      - httpApi:
+          path: criaUsuario
+          method: post
+  listarUsuarios:
+    handler: Usuario/manipulaUsuario.ListarUsuarios
+    events:
+      - httpApi:
+          path: listarUsuarios
+          method: get
+  listarUsuario:
+    handler: Usuario/manipulaUsuario.listarUmUsuario
+    events:
+      - httpApi:
+          path: listarUsuario/{id}
+          method: get
+  deletarUsuario:
+    handler: Usuario/manipulaUsuario.apagarUsuario
+    events:
+      - httpApi:
+          path: deletarUsuario/{id}
+          method: delete
+  atualizarUsuario:
+    handler: Usuario/manipulaUsuario.AtualizaUsuario
+    events:
+      - httpApi:
+          path: atualizarUsuario/{id}
+          method: patch
+  loginUsuario:
+    handler: Usuario/manipulaUsuario.LoginUsuario
+    events:
+      - httpApi:
+          path: loginUsuario/{id}
+          method: post
+  enviaVideoFoto:
+    handler: Usuario/VideosFotos/manipularVideosFotos.EnviaVideoOuFoto
+    events:
+      - httpApi:
+          path: videoFoto/{id}
+          method: post
+
+custom:
+  serverless-offline:
+    httpPort: 3001
+
+plugins:
+  - serverless-offline
